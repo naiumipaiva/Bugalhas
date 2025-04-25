@@ -25,6 +25,7 @@ const textResult = document.querySelector('#txtResult')
 const replay = document.querySelector('#replay')
 
 let jogadorAtualSelecionado = null // Variável para rastrear o jogador atual
+let dadoAtual = null
 
 //Função para Iniciar o Jogo e definir o jogador que inicia
 function iniciarJogo(jogador) {
@@ -45,8 +46,8 @@ selecionaCordeiro.onclick = () => iniciarJogo(jogadorCordeiro)
 
 //1- Inicio do turno
 function iniciarTurno() {
-  const valorDado = sortearDado()
-  mostrarDado(valorDado)
+  dadoAtual = sortearDado()
+  mostrarDado(dadoAtual)
 }
 
 function sortearDado() {
@@ -88,6 +89,9 @@ function jogarNaColuna(coluna) {
   const tabuleiro = isCordeiro
     ? document.querySelector('.TabCord .tabuleiro')
     : document.querySelector('.TabLob .tabuleiro')
+  const tabuleiroOponente = isCordeiro
+    ? document.querySelector('.TabLob .tabuleiro')
+    : document.querySelector('.TabCord .tabuleiro')
 
   // Seleciona todas as células da coluna
   const celulasDaColuna = Array.from(
@@ -104,8 +108,10 @@ function jogarNaColuna(coluna) {
   )
 
   if (celulaDisponivel) {
-    const srcDado = isCordeiro ? imgDadoCordeiro.src : imgDadoLobo.src
-    celulaDisponivel.innerHTML = `<img src="${srcDado}" alt="dado">`
+    celulaDisponivel.innerHTML = `<img src="${
+      isCordeiro ? imgDadoCordeiro.src : imgDadoLobo.src
+    }" alt="dado" width="100em" data-valor="${dadoAtual}">`
+    regraDestruicao(coluna, dadoAtual, isCordeiro)
     trocarJogador()
   } else {
     alert('Essa coluna está cheia! Escolha outra.')
@@ -116,7 +122,30 @@ function jogarNaColuna(coluna) {
 
 function atualizaTabuleiro() {}
 
-function regraDestruicao() {}
+function regraDestruicao(coluna, valorDado, isCordeiro) {
+  const tabuleiroAdversario = isCordeiro
+    ? document.querySelector('.TabLob .tabuleiro')
+    : document.querySelector('.TabCord .tabuleiro')
+
+  const celulasDaColunaAdversaria = Array.from(
+    tabuleiroAdversario.querySelectorAll(`.cell[data-coluna='${coluna}']`)
+  )
+
+  celulasDaColunaAdversaria.forEach((celula) => {
+    const img = celula.querySelector('img')
+    if (img) {
+      const valorImagem = extrairNumeroDoSrc(img.src)
+      if (valorImagem === valorDado) {
+        celula.innerHTML = '' // Remove o dado da célula
+      }
+    }
+  })
+}
+
+function extrairNumeroDoSrc(src) {
+  const match = src.match(/(\d+)\.png$/)
+  return match ? parseInt(match[1]) : null
+}
 
 function verificaFimJogo() {}
 
