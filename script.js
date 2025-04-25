@@ -1,54 +1,52 @@
 //Seleção de Elementos do HTML
 
 // Seleciona as principais telas do jogo, o inicio, meio e fim
-let inicio = document.querySelector(`#home`)
-let meio = document.querySelector(`main`)
-let fim = document.querySelector(`#fim`)
+const inicio = document.querySelector('#home')
+const meio = document.querySelector('main')
+const fim = document.querySelector('#fim')
 
 // Seleciona os id´s dos players para saber qual começa
-let selecionaLobo = document.querySelector(`#lobo`)
-let selecionaCordeiro = document.querySelector(`#cordeiro`)
+const selecionaLobo = document.querySelector('#lobo')
+const selecionaCordeiro = document.querySelector('#cordeiro')
 
 // Seleciona a vez dos jogadores
-let jogadorLobo = document.querySelector(`.playerLobo`)
-let jogadorCordeiro = document.querySelector(`.playerCordeiro`)
+const jogadorLobo = document.querySelector('.playerLobo')
+const jogadorCordeiro = document.querySelector('.playerCordeiro')
 
 // Seleciona as celulas do tabuleiro
-let cell = document.querySelectorAll(`.cell`)
+const cells = document.querySelectorAll('.cell')
 
 // Seleciona a img da div dado de cada jogador
-let imgDadoCordeiro = document.querySelector('#imagemDadoCordeiro')
-let imgDadoLobo = document.querySelector('#imagemDadoLobo')
+const imgDadoCordeiro = document.querySelector('#imagemDadoCordeiro')
+const imgDadoLobo = document.querySelector('#imagemDadoLobo')
 
 // Seleciona o texto de resultado e o botão de replay
-let textResult = document.querySelector(`#txtResult`)
-let replay = document.querySelector(`#replay`)
+const textResult = document.querySelector('#txtResult')
+const replay = document.querySelector('#replay')
 
-//Muda Tela para o tabuleiro
-window.onload = () => {
-  //Vai definir quem começa de acordo com o botão
-  selecionaLobo.onclick = () => {
-    inicio.classList.add('hide')
-    meio.classList.remove('hide')
-    jogadorLobo.setAttribute('id', 'selecionado') // Define o id "selecionado" para o Lobo
-    jogadorCordeiro.removeAttribute('id') // Remove o id do Cordeiro, caso exista
-    iniciarTurno()
-  }
-  selecionaCordeiro.onclick = () => {
-    inicio.classList.add('hide')
-    meio.classList.remove('hide')
-    jogadorCordeiro.setAttribute('id', 'selecionado') // Define o id "selecionado" para o Cordeiro
-    jogadorLobo.removeAttribute('id') // Remove o id do Lobo, caso exista
-    iniciarTurno()
-  }
+let jogadorAtualSelecionado = null // Variável para rastrear o jogador atual
+
+//Função para Iniciar o Jogo e definir o jogador que inicia
+function iniciarJogo(jogador) {
+  inicio.classList.add('hide')
+  meio.classList.remove('hide')
+
+  jogadorLobo.removeAttribute('id')
+  jogadorCordeiro.removeAttribute('id')
+
+  jogador.setAttribute('id', 'selecionado')
+  jogadorAtualSelecionado = jogador
+  iniciarTurno()
 }
 
-//1- Inicio do turno
+// Event listeners para os botões de escolha do jogador
+selecionaLobo.onclick = () => iniciarJogo(jogadorLobo)
+selecionaCordeiro.onclick = () => iniciarJogo(jogadorCordeiro)
 
+//1- Inicio do turno
 function iniciarTurno() {
-  let valorDado = sortearDado()
+  const valorDado = sortearDado()
   mostrarDado(valorDado)
-  clicaNaColuna()
 }
 
 function sortearDado() {
@@ -56,41 +54,37 @@ function sortearDado() {
 }
 
 function mostrarDado(n) {
-  const jogadorAtual = document.querySelector(`#selecionado`)
-
   imgDadoCordeiro.style.display = 'none'
   imgDadoLobo.style.display = 'none'
 
-  if (!jogadorAtual) return
+  if (!jogadorAtualSelecionado) return
 
-  if (jogadorAtual.classList.contains(`playerCordeiro`)) {
-    imgDadoCordeiro.src = `dados/${n}.png`
-    imgDadoCordeiro.alt = `Dado de número ${n}`
-    imgDadoCordeiro.style.display = 'block'
-  } else if (jogadorAtual.classList.contains(`playerLobo`)) {
-    imgDadoLobo.src = `dados/${n}.png`
-    imgDadoLobo.alt = `Dado de número ${n}`
-    imgDadoLobo.style.display = 'block'
-  }
+  const isCordeiro =
+    jogadorAtualSelecionado.classList.contains('playerCordeiro')
+  const imgDado = isCordeiro ? imgDadoCordeiro : imgDadoLobo
+
+  imgDado.src = `dados/${n}.png`
+  imgDado.alt = `Dado de número ${n}`
+  imgDado.style.display = 'block'
 }
 
 //2- Jogador escolhe a coluna
-
 function clicaNaColuna() {
-  //Tornou as cells clicaveis
-  cell.forEach((cell) => {
-    cell.addEventListener(`click`, () => {
-      const coluna = cell.getAttribute(`data-coluna`)
+  cells.forEach((cell) => {
+    cell.onclick = () => {
+      // Usando onclick diretamente para simplificar
+      const coluna = parseInt(cell.getAttribute('data-coluna'))
       console.log(`Célula clicada na coluna: ${coluna}`)
-      jogarNaColuna(parseInt(coluna))
-    })
+      jogarNaColuna(coluna)
+    }
   })
 }
 
 function jogarNaColuna(coluna) {
   // Descobre quem está jogando
-  const jogadorAtual = document.querySelector('#selecionado')
-  const isCordeiro = jogadorAtual.classList.contains('playerCordeiro')
+  if (!jogadorAtualSelecionado) return
+  const isCordeiro =
+    jogadorAtualSelecionado.classList.contains('playerCordeiro')
   const tabuleiro = isCordeiro
     ? document.querySelector('.TabCord .tabuleiro')
     : document.querySelector('.TabLob .tabuleiro')
@@ -110,18 +104,41 @@ function jogarNaColuna(coluna) {
   )
 
   if (celulaDisponivel) {
-    celulaDisponivel.innerHTML = `<img src="${
-      jogadorAtual.classList.contains('playerCordeiro')
-        ? imgDadoCordeiro.src
-        : imgDadoLobo.src
-    }" alt="dado">`
+    const srcDado = isCordeiro ? imgDadoCordeiro.src : imgDadoLobo.src
+    celulaDisponivel.innerHTML = `<img src="${srcDado}" alt="dado">`
     trocarJogador()
   } else {
     alert('Essa coluna está cheia! Escolha outra.')
   }
 }
 
-// Da F5 na pag
-replay.onclick = () => {
-  window.location.reload()
+//3- Atualiza Tabuleiro
+
+function atualizaTabuleiro() {}
+
+function regraDestruicao() {}
+
+function verificaFimJogo() {}
+
+function verificaVencedor() {}
+
+function atualizaPontos() {}
+
+function trocarJogador() {
+  if (jogadorAtualSelecionado === jogadorCordeiro) {
+    jogadorAtualSelecionado = jogadorLobo
+    jogadorLobo.setAttribute('id', 'selecionado')
+    jogadorCordeiro.removeAttribute('id')
+  } else {
+    jogadorAtualSelecionado = jogadorCordeiro
+    jogadorCordeiro.setAttribute('id', 'selecionado')
+    jogadorLobo.removeAttribute('id')
+  }
+  iniciarTurno() // Inicia o turno do próximo jogador
 }
+
+// Da F5 na pag
+replay.onclick = () => window.location.reload()
+
+// Inicializar a possibilidade de clicar nas colunas apenas uma vez
+clicaNaColuna()
