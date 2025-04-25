@@ -48,6 +48,7 @@ window.onload = () => {
 function iniciarTurno() {
   let valorDado = sortearDado()
   mostrarDado(valorDado)
+  clicaNaColuna()
 }
 
 function sortearDado() {
@@ -55,7 +56,7 @@ function sortearDado() {
 }
 
 function mostrarDado(n) {
-  let jogadorAtual = document.querySelector(`#selecionado`)
+  const jogadorAtual = document.querySelector(`#selecionado`)
 
   imgDadoCordeiro.style.display = 'none'
   imgDadoLobo.style.display = 'none'
@@ -76,12 +77,48 @@ function mostrarDado(n) {
 //2- Jogador escolhe a coluna
 
 function clicaNaColuna() {
-    if (condition) {
-        
-    } else {
-        
-    }
-    
+  //Tornou as cells clicaveis
+  cell.forEach((cell) => {
+    cell.addEventListener(`click`, () => {
+      const coluna = cell.getAttribute(`data-coluna`)
+      console.log(`Célula clicada na coluna: ${coluna}`)
+      jogarNaColuna(parseInt(coluna))
+    })
+  })
+}
+
+function jogarNaColuna(coluna) {
+  // Descobre quem está jogando
+  const jogadorAtual = document.querySelector('#selecionado')
+  const isCordeiro = jogadorAtual.classList.contains('playerCordeiro')
+  const tabuleiro = isCordeiro
+    ? document.querySelector('.TabCord .tabuleiro')
+    : document.querySelector('.TabLob .tabuleiro')
+
+  // Seleciona todas as células da coluna
+  const celulasDaColuna = Array.from(
+    tabuleiro.querySelectorAll(`.cell[data-coluna='${coluna}']`)
+  )
+
+  if (isCordeiro) {
+    celulasDaColuna.reverse()
+  }
+
+  // Encontra a primeira célula vazia
+  const celulaDisponivel = celulasDaColuna.find(
+    (cel) => cel.innerHTML.trim() === ''
+  )
+
+  if (celulaDisponivel) {
+    celulaDisponivel.innerHTML = `<img src="${
+      jogadorAtual.classList.contains('playerCordeiro')
+        ? imgDadoCordeiro.src
+        : imgDadoLobo.src
+    }" alt="dado">`
+    trocarJogador()
+  } else {
+    alert('Essa coluna está cheia! Escolha outra.')
+  }
 }
 
 // Da F5 na pag
