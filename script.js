@@ -16,27 +16,46 @@ let jogadorCordeiro = document.querySelector(`.playerCordeiro`)
 // Seleciona as celulas do tabuleiro
 let cell = document.querySelectorAll(`.cell`)
 
+// Seleciona a img da div dado
+const imgDado = document.querySelector(`#imagemDado`)
+
 // Seleciona o texto de resultado e o botão de replay
 let textResult = document.querySelector(`#txtResult`)
 let replay = document.querySelector(`#replay`)
 
 //Muda Tela para o tabuleiro
 window.onload = () => {
-  //Vai definir quem começa de acordo com o "icon" selecionado
+  //Vai definir quem começa de acordo com o botão
   selecionaLobo.onclick = () => {
     inicio.classList.add('hide')
     meio.classList.remove('hide')
     jogadorLobo.setAttribute('id', 'selecionado') // Define o id "selecionado" para o Lobo
     jogadorCordeiro.removeAttribute('id') // Remove o id do Cordeiro, caso exista
-    // Aqui você pode adicionar mais lógica para iniciar o jogo com o Lobo
+    iniciarTurno()
   }
   selecionaCordeiro.onclick = () => {
     inicio.classList.add('hide')
     meio.classList.remove('hide')
     jogadorCordeiro.setAttribute('id', 'selecionado') // Define o id "selecionado" para o Cordeiro
     jogadorLobo.removeAttribute('id') // Remove o id do Lobo, caso exista
-    // Aqui você pode adicionar mais lógica para iniciar o jogo com o Cordeiro
+    iniciarTurno()
   }
+}
+
+//1- Inicio do turno
+
+function iniciarTurno() {
+  let valorDado = sortearDado()
+  mostrarDado(valorDado)
+}
+
+function sortearDado() {
+  return Math.floor(Math.random() * 6) + 1
+}
+
+function mostrarDado(n) {
+  imgDado.src = `dados/${n}.png`
+  imgDado.alt = `Dado de número ${n}`
 }
 
 // Da F5 na pag
