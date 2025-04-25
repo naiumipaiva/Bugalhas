@@ -16,8 +16,9 @@ let jogadorCordeiro = document.querySelector(`.playerCordeiro`)
 // Seleciona as celulas do tabuleiro
 let cell = document.querySelectorAll(`.cell`)
 
-// Seleciona a img da div dado
-const imgDado = document.querySelector(`#imagemDado`)
+// Seleciona a img da div dado de cada jogador
+let imgDadoCordeiro = document.querySelector('#imagemDadoCordeiro')
+let imgDadoLobo = document.querySelector('#imagemDadoLobo')
 
 // Seleciona o texto de resultado e o botão de replay
 let textResult = document.querySelector(`#txtResult`)
@@ -54,8 +55,33 @@ function sortearDado() {
 }
 
 function mostrarDado(n) {
-  imgDado.src = `dados/${n}.png`
-  imgDado.alt = `Dado de número ${n}`
+  let jogadorAtual = document.querySelector(`#selecionado`)
+
+  imgDadoCordeiro.style.display = 'none'
+  imgDadoLobo.style.display = 'none'
+
+  if (!jogadorAtual) return
+
+  if (jogadorAtual.classList.contains(`playerCordeiro`)) {
+    imgDadoCordeiro.src = `dados/${n}.png`
+    imgDadoCordeiro.alt = `Dado de número ${n}`
+    imgDadoCordeiro.style.display = 'block'
+  } else if (jogadorAtual.classList.contains(`playerLobo`)) {
+    imgDadoLobo.src = `dados/${n}.png`
+    imgDadoLobo.alt = `Dado de número ${n}`
+    imgDadoLobo.style.display = 'block'
+  }
+}
+
+//2- Jogador escolhe a coluna
+
+function clicaNaColuna() {
+    if (condition) {
+        
+    } else {
+        
+    }
+    
 }
 
 // Da F5 na pag

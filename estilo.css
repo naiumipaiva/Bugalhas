@@ -135,15 +135,6 @@ p {
   font-size: 1.3em;
 }
 
-#selecionado {
-  color: var(--corFontes);
-  background-color: var(--corAreas);
-  border-radius: 20px;
-  padding: 8px;
-  margin: 10px;
-  font-size: 1.3em;
-}
-
 .pontos {
   text-align: center;
 }
@@ -163,8 +154,22 @@ p {
   text-align: center;
 }
 
+.dado img {
+  display: none;
+  width: 10em;
+}
+
 /*Tag para JS*/
 
 .hide {
   display: none;
+}
+
+#selecionado {
+  color: var(--corFontes);
+  background-color: var(--corAreas);
+  border-radius: 20px;
+  padding: 8px;
+  margin: 10px;
+  font-size: 1.3em;
 }
