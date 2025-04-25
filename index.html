@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bugalhas</title>
+    <link rel="stylesheet" href="estilo.css" />
+    <link rel="stylesheet" href="responsivo.css" />
+  </head>
+  <body>
+    <section id="home">
+      <h1>Vamos Jogar Bugalhas?</h1>
+      <p>Este é um jogo inspirado no mini game de <br />Cult Of The Lamb</p>
+      <h1>Escolha seu Lado</h1>
+      <div class="opcao">
+        <button id="lobo">Lobo</button>
+        <button id="cordeiro">Cordeiro</button>
+      </div>
+    </section>
+
+    <main class="hide">
+      <div class="cordeiro">
+        <div class="dado"></div>
+        <p class="playerCordeiro" id="">Cordeiro</p>
+      </div>
+
+      <div class="Board">
+        <aside class="TabLob">
+          <div class="tabuleiro">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
+          <div class="pontos">
+            <div class="pont">10</div>
+            <div class="pont">10</div>
+            <div class="pont">10</div>
+          </div>
+          <div class="total">Total:</div>
+        </aside>
+        <!-- Divisão de Tabuleiros-->
+        <aside class="TabCord">
+          <div class="tabuleiro">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
+          <div class="pontos">
+            <div class="pont">10</div>
+            <div class="pont">10</div>
+            <div class="pont">10</div>
+          </div>
+          <div class="total">Total:</div>
+        </aside>
+      </div>
+
+      <div class="lobo">
+        <div class="dado"></div>
+        <p class="playerLobo" id="">Lobo</p>
+      </div>
+    </main>
+
+    <section id="fim" class="hide">
+      <h1 id="txtResult"></h1>
+      <button id="replay">Jogar Novamente</button>
+    </section>
+  </body>
+  <script src="script.js"></script>
+</html>
