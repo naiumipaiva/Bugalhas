@@ -112,6 +112,7 @@ function jogarNaColuna(coluna) {
       isCordeiro ? imgDadoCordeiro.src : imgDadoLobo.src
     }" alt="dado" width="100em" data-valor="${dadoAtual}">`
     regraDestruicao(coluna, dadoAtual, isCordeiro)
+    atualizaTabuleiro(coluna, isCordeiro)
     trocarJogador()
   } else {
     alert('Essa coluna está cheia! Escolha outra.')
@@ -120,7 +121,48 @@ function jogarNaColuna(coluna) {
 
 //3- Atualiza Tabuleiro
 
-function atualizaTabuleiro() {}
+function atualizaTabuleiro(coluna, isCordeiro) {
+  const tabuleiro = isCordeiro
+    ? document.querySelector('.TabCord .tabuleiro')
+    : document.querySelector('.TabLob .tabuleiro')
+
+  const celulasDaColuna = Array.from(
+    tabuleiro.querySelectorAll(`.cell[data-coluna='${coluna}']`)
+  )
+
+  const contagem = {} // Ex: {1: 2, 3: 1}
+
+  celulasDaColuna.forEach((celula) => {
+    if (celula.id === 'fundo-2d' || celula.id === 'fundo-3d') {
+      celula.removeAttribute('id') // Remove o ID anterior de fundo
+    }
+
+    const img = celula.querySelector('img')
+    if (img) {
+      const valor = parseInt(img.getAttribute('data-valor'))
+      if (valor) {
+        contagem[valor] = (contagem[valor] || 0) + 1
+      }
+    }
+  })
+
+  // Aplica os IDs conforme a repetição
+  Object.keys(contagem).forEach((valor) => {
+    const repeticoes = contagem[valor]
+    if (repeticoes >= 2) {
+      celulasDaColuna.forEach((celula) => {
+        const img = celula.querySelector('img')
+        if (img && img.getAttribute('data-valor') === valor) {
+          if (repeticoes === 2) {
+            celula.id = 'fundo-2d'
+          } else if (repeticoes >= 3) {
+            celula.id = 'fundo-3d'
+          }
+        }
+      })
+    }
+  })
+}
 
 function regraDestruicao(coluna, valorDado, isCordeiro) {
   const tabuleiroAdversario = isCordeiro
@@ -137,6 +179,7 @@ function regraDestruicao(coluna, valorDado, isCordeiro) {
       const valorImagem = extrairNumeroDoSrc(img.src)
       if (valorImagem === valorDado) {
         celula.innerHTML = '' // Remove o dado da célula
+        celula.removeAttribute('id')
       }
     }
   })
