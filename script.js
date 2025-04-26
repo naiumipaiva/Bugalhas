@@ -144,7 +144,9 @@ const regraDestruicao = (coluna, valor, isCordeiro) => {
     .forEach((img) => {
       //Para cada img ele vai aplicar a regra de extrair o numero da imagem pra então remover se o valor dele for igual ao valor do parametro recebido
       if (+extrairNumeroDoSrc(img.src) === valor) {
-        img.parentElement.innerHTML = ''
+        const cell = img.parentElement // Pegamos a célula que contém o dado
+        cell.innerHTML = '' // Removemos o dado
+        cell.removeAttribute('id') // Também limpamos qualquer fundo especial
       }
     })
 }
