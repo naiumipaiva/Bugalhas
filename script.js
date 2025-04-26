@@ -121,6 +121,8 @@ function jogarNaColuna(coluna) {
     regraDestruicao(coluna, dadoAtual, isCordeiro)
     atualizaTabuleiro(coluna, isCordeiro)
     atualizaPontos()
+    verificaFimJogo()
+    verificaVencedor()
     trocarJogador()
   } else {
     alert('Essa coluna está cheia! Escolha outra.')
@@ -201,10 +203,6 @@ function extrairNumeroDoSrc(src) {
   return match ? parseInt(match[1]) : null
 }
 
-function verificaFimJogo() {}
-
-function verificaVencedor() {}
-
 //Atualiza o número de pontos de cada jogador
 function atualizaPontos() {
   calcularPontuacao('.TabCord', 'cordeiro')
@@ -260,6 +258,57 @@ function calcularPontuacao(selectorTabuleiro, jogador) {
   // Atualiza o total geral
   const totalDiv = document.querySelector(`${selectorTabuleiro} .total`)
   if (totalDiv) totalDiv.textContent = `Total: ${total}`
+}
+
+function verificaFimJogo() {
+  // Pegamos todas as células do tabuleiro
+  const celulasLobo = document.querySelectorAll('.TabLob .cell')
+  const celulasCordeiro = document.querySelectorAll('.TabCord .cell')
+
+  // Verificamos se ainda existe alguma célula sem dado (sem <img> dentro)
+  const loboCheio = Array.from(celulasLobo).every((cell) =>
+    cell.querySelector('img')
+  )
+  const cordeiroCheio = Array.from(celulasCordeiro).every((cell) =>
+    cell.querySelector('img')
+  )
+
+  if (loboCheio || cordeiroCheio) {
+    // Se não existem células vazias, o jogo terminou
+    console.log('Fim de jogo')
+    document.querySelector('main').classList.add('hide')
+    document.getElementById('fim').classList.remove('hide')
+    // Aqui você também pode chamar alguma função de mostrar o vencedor
+  } else {
+    // Ainda existem espaços vazios, o jogo continua
+    console.log('O jogo continua')
+  }
+}
+
+function verificaVencedor() {
+  const totalLobo = calcularTotal('.TabLob')
+  const totalCordeiro = calcularTotal('.TabCord')
+
+  let resultado = ''
+
+  if (totalLobo > totalCordeiro) {
+    resultado = 'Lobo venceu!'
+  } else if (totalCordeiro > totalLobo) {
+    resultado = 'Cordeiro venceu!'
+  } else {
+    resultado = 'Empate!'
+  }
+  // Mostrar na tela
+  document.getElementById('txtResult').textContent = resultado
+}
+
+function calcularTotal(tabuleiroSelector) {
+  const pontos = document.querySelectorAll(`${tabuleiroSelector} .pontos .pont`)
+  let total = 0
+  pontos.forEach((p) => {
+    total += parseInt(p.textContent) || 0
+  })
+  return total
 }
 
 function trocarJogador() {
