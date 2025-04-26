@@ -4,6 +4,8 @@
   --corFundo: #292e34;
   --corFontes: #f2ecda;
   --corTabuleiro: #3f4449;
+  --cor2Dados: #fed67b;
+  --cor3Dados: #719cb9;
 }
 
 /*Geral*/
@@ -172,4 +174,12 @@ p {
   padding: 8px;
   margin: 10px;
   font-size: 1.3em;
+}
+
+#fundo-2d {
+  background-color: var(--cor2Dados);
+}
+
+#fundo-3d {
+  background-color: var(--cor3Dados);
 }
