@@ -8,7 +8,7 @@
   --cor3Dados: #719cb9;
 }
 
-/*Geral*/
+/*Geral e Reset */
 
 * {
   font-family: Arial, Helvetica, sans-serif;
@@ -50,6 +50,8 @@ main {
   gap: 5em;
 }
 
+/* Dados e jogadores */
+
 .dado {
   width: 10em;
   height: 10em;
@@ -57,6 +59,11 @@ main {
   border-radius: 20px;
   margin: 0.5em;
   box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.dado img {
+  display: none;
+  width: 10em;
 }
 
 .cordeiro {
@@ -73,6 +80,19 @@ main {
   flex-direction: column-reverse;
   justify-content: flex-end;
 }
+
+.playerLobo,
+.playerCordeiro {
+  color: var(--corFontes);
+  background-color: none;
+  border: solid 1px var(--corAreas);
+  border-radius: 20px;
+  padding: 8px;
+  margin: 10px;
+  font-size: 1.3em;
+}
+
+/* Tabuleiro */
 
 .Board {
   display: flex;
@@ -97,46 +117,7 @@ main {
   border-radius: 10px;
 }
 
-/*Elementos "Filhos"*/
-
-button {
-  background-color: var(--corDestaque);
-  border: none;
-  border-radius: 10px;
-  color: var(--corAreas);
-  padding: 20px 50px;
-  margin: 10px;
-  font-size: 1.3em;
-}
-
-button:hover {
-  background-color: var(--corAreas);
-  border: solid 1px var(--corDestaque);
-  color: var(--corDestaque);
-}
-
-h1 {
-  margin: 1em;
-  padding: 0.5em;
-  font-size: 1.7em;
-  text-align: center;
-}
-
-p {
-  font-size: 1em;
-  text-align: center;
-}
-
-.playerLobo,
-.playerCordeiro {
-  color: var(--corFontes);
-  background-color: none;
-  border: solid 1px var(--corAreas);
-  border-radius: 20px;
-  padding: 8px;
-  margin: 10px;
-  font-size: 1.3em;
-}
+/* Pontuação */
 
 .pontos {
   text-align: center;
@@ -157,9 +138,36 @@ p {
   text-align: center;
 }
 
-.dado img {
-  display: none;
-  width: 10em;
+/* Botões */
+
+button {
+  background-color: var(--corDestaque);
+  border: none;
+  border-radius: 10px;
+  color: var(--corAreas);
+  padding: 20px 50px;
+  margin: 10px;
+  font-size: 1.3em;
+}
+
+button:hover {
+  background-color: var(--corAreas);
+  border: solid 1px var(--corDestaque);
+  color: var(--corDestaque);
+}
+
+/*Elementos "Filhos"*/
+
+h1 {
+  margin: 1em;
+  padding: 0.5em;
+  font-size: 1.7em;
+  text-align: center;
+}
+
+p {
+  font-size: 1em;
+  text-align: center;
 }
 
 /*Tag para JS*/
@@ -183,4 +191,8 @@ p {
 
 #fundo-3d {
   background-color: var(--cor3Dados);
+}
+
+#imagemDadoCentral {
+  display: none;
 }

@@ -13,6 +13,7 @@ const inicio = $('#home'),
   jogadorCordeiro = $('.playerCordeiro'),
   imgDadoCordeiro = $('#imagemDadoCordeiro'),
   imgDadoLobo = $('#imagemDadoLobo'),
+  imgDadoCentro = $(`#imagemDadoCentral`),
   textResult = $('#txtResult'),
   replay = $('#replay'),
   cells = $$('.cell')
@@ -55,6 +56,16 @@ const mostrarDado = () => {
   imgDado.src = `dados/${dadoAtual}.png`
   imgDado.alt = `Dado ${dadoAtual}`
   imgDado.style.display = 'block'
+
+  //Mostra o dado no espaço do dado em telas pequenas
+  if (!window.matchMedia('(max-width: 600px)').matches) return
+
+  if (!jogadorAtualSelecionado) return
+
+  imgDadoCentro.src = `dados/${dadoAtual}.png`
+  imgDadoCentro.alt = `Dado do ${nomeJogador}: ${dadoAtual}`
+  imgDadoCentro.style.display = 'block'
+  imgDadoCentro.style.width = '8em'
 }
 
 // Jogar na coluna
@@ -88,14 +99,20 @@ const jogarNaColuna = (coluna) => {
 
   //Ao encontrar a celula vazia adiciona o dado a ela
   if (celulaDisponivel) {
-    celulaDisponivel.innerHTML = `<img src="${
-      isCordeiro ? imgDadoCordeiro.src : imgDadoLobo.src
-    }" alt="dado" width="100em" data-valor="${dadoAtual}">`
+    const src = isCordeiro ? imgDadoCordeiro.src : imgDadoLobo.src
+    const dadoHTML = window.matchMedia('(max-width: 600px)').matches
+      ? `<img src="${src}" alt="dado" width="80em" data-valor="${dadoAtual}">`
+      : `<img src="${src}" alt="dado" width="100em" data-valor="${dadoAtual}">`
+
+    celulaDisponivel.innerHTML = dadoHTML
+
     aplicarRegras(coluna, dadoAtual, isCordeiro)
     atualizaPontos()
     if (verificaFimJogo()) verificaVencedor()
     else trocarJogador()
-  } else alert('Essa coluna está cheia! Escolha outra.')
+  } else {
+    alert('Essa coluna está cheia! Escolha outra.')
+  }
 }
 
 // Aplica as regras do Jogo

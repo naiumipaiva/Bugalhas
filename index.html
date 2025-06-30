@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="responsivo.css" />
   </head>
   <body>
+    <!-- Tela de início -->
     <section id="home">
       <h1>Vamos Jogar Bugalhas?</h1>
       <p>Este é um jogo inspirado no mini game de <br />Cult Of The Lamb</p>
@@ -18,6 +19,7 @@
       </div>
     </section>
 
+    <!-- Jogo principal -->
     <main class="hide">
       <div class="cordeiro">
         <div class="dado">
@@ -29,6 +31,7 @@
       <div class="Board">
         <aside class="TabLob">
           <div class="tabuleiro">
+            <!-- Linhas e colunas do lobo -->
             <div class="cell" data-coluna="0"></div>
             <div class="cell" data-coluna="1"></div>
             <div class="cell" data-coluna="2"></div>
@@ -48,9 +51,17 @@
           </div>
           <div class="total">Total:</div>
         </aside>
-        <!-- Divisão de Tabuleiros-->
+
+        <!-- Dado central -->
+        <div class="rolar">
+          <div class="dado2">
+            <img id="imagemDadoCentral" alt="dado" />
+          </div>
+        </div>
+
         <aside class="TabCord">
           <div class="tabuleiro">
+            <!-- Linhas e colunas do cordeiro -->
             <div class="cell" data-coluna="0"></div>
             <div class="cell" data-coluna="1"></div>
             <div class="cell" data-coluna="2"></div>
@@ -78,10 +89,12 @@
       </div>
     </main>
 
+    <!-- Tela de fim de jogo -->
     <section id="fim" class="hide">
       <h1 id="txtResult"></h1>
       <button id="replay">Jogar Novamente</button>
     </section>
   </body>
+
   <script src="script.js"></script>
 </html>
