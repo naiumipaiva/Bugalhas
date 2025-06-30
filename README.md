@@ -53,7 +53,7 @@ Um jogo de estratégia inspirado no minigame **Knucklebones** de _Cult of the La
 
 ## 🚀 Como Jogar
 
-2. Clique no link:
+2. Clique no link: https://bugalhas-naiumis-projects.vercel.app/
 3. Escolha seu lado: **Lobo** ou **Cordeiro**.
 4. Role o dado e selecione uma coluna.
 5. Acompanhe a pontuação.
