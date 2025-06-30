@@ -1,3 +1,4 @@
+![Bugalhas em ação](Bugalhas.jpg)
 # Bugalhas 🎲🐺🐑
 
 Um jogo de estratégia inspirado no minigame **Knucklebones** de _Cult of the Lamb_, desenvolvido com **HTML**, **CSS** e **JavaScript**.
