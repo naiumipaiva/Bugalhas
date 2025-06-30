@@ -41,6 +41,7 @@
 
   .Board {
     align-items: center;
+    gap: 0.2em;
   }
 
   .tabuleiro,
@@ -60,7 +61,18 @@
   /*Pontuação*/
 
   .total {
-    margin: 10px;
+    display: none;
+  }
+
+  .pontSmal {
+    display: block;
+    color: var(--corFontes);
+    border: solid 2px var(--corAreas);
+    border-radius: 20px;
+    padding: 5px;
+    margin: 5px;
+    font-size: 1.3em;
+    text-align: center;
   }
 
   /* Botões */
@@ -76,5 +88,14 @@
     display: block;
     width: 8em;
     margin: auto;
+  }
+
+  #selecionado {
+    color: var(--corFontes);
+    background-color: var(--corAreas);
+    border-radius: 20px;
+    padding: 5px;
+    margin: 5px;
+    font-size: 1.3em;
   }
 }

@@ -138,6 +138,10 @@ main {
   text-align: center;
 }
 
+.pontSmal {
+  display: none;
+}
+
 /* Botões */
 
 button {

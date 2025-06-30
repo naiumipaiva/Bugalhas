@@ -30,6 +30,20 @@ const iniciarJogo = (jogador) => {
   ;[jogadorLobo, jogadorCordeiro].forEach((j) => j.removeAttribute('id'))
   jogador.setAttribute('id', 'selecionado')
   jogadorAtualSelecionado = jogador
+  // Aplica o id="selecionado" na pontSmal correta em telas pequenas
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    document
+      .querySelectorAll('.pontSmal')
+      .forEach((el) => el.removeAttribute('id'))
+
+    const pontSmalAlvo = jogador.classList.contains('playerCordeiro')
+      ? document.querySelector('.TabCord .pontSmal')
+      : document.querySelector('.TabLob .pontSmal')
+
+    if (pontSmalAlvo) {
+      pontSmalAlvo.setAttribute('id', 'selecionado')
+    }
+  }
   iniciarTurno()
 }
 
@@ -204,6 +218,14 @@ const calcularPontuacao = (selectorTabuleiro) => {
   })
 
   $(`${selectorTabuleiro} .total`).textContent = `Total: ${total}`
+
+  const nomeJogador = selectorTabuleiro.includes('Lob') ? 'Lobo' : 'Cordeiro'
+
+  const textoTotal = window.matchMedia('(max-width: 600px)').matches
+    ? `${nomeJogador}: ${total}`
+    : `Total:`
+
+  $(`${selectorTabuleiro} .pontSmal`).textContent = textoTotal
 }
 
 // Verificar fim do jogo
@@ -245,12 +267,33 @@ const calcularTotal = (selector) => {
 
 //Muda de jogador
 const trocarJogador = () => {
-  //Define quem será o próximo
+  // Define quem será o próximo
   const novoJogador =
     jogadorAtualSelecionado === jogadorCordeiro ? jogadorLobo : jogadorCordeiro
+
+  // Atualiza id visual dos nomes dos jogadores (em cima/embaixo)
   ;[jogadorCordeiro, jogadorLobo].forEach((j) => j.removeAttribute('id'))
   novoJogador.setAttribute('id', 'selecionado')
   jogadorAtualSelecionado = novoJogador
+
+  // Atualiza id="selecionado" em .pontSmal nas telas pequenas
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    // Remove id anterior de ambas as pontSmal
+    document
+      .querySelectorAll('.pontSmal')
+      .forEach((el) => el.removeAttribute('id'))
+
+    // Aplica id="selecionado" na pontSmal correta
+    const pontSmalAlvo = novoJogador.classList.contains('playerCordeiro')
+      ? document.querySelector('.TabCord .pontSmal')
+      : document.querySelector('.TabLob .pontSmal')
+
+    if (pontSmalAlvo) {
+      pontSmalAlvo.setAttribute('id', 'selecionado')
+    }
+  }
+
+  // Inicia o próximo turno
   iniciarTurno()
 }
 
